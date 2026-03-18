@@ -1,0 +1,5 @@
+print("hello")
+user_name= input("Enter your name:")
+print(f"Welcome Agent: {user_name}")
+target = input("Enter target IP: ")
+print(f"[!] Scanning target: {target} ")
