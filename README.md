@@ -6,6 +6,13 @@
 
 ## 🚀 Version History (Changelog)
 
+### 🛠 v3.5: The Brute-Force Awakening (Current)
+
+- **New Feature**: Integrated 7z Archive Cracking Engine.
+- **Library**: Powered by `py7zr` for high-speed signature matching.
+- **Capability**: Can now test thousands of passwords from a `pass.txt` wordlist.
+- **UX**: Added real-time "Checked" counter and color-coded results.
+
 ### **v3.0 (Current Version)**
 
 - **Intelligent Logic:** Upgraded Stage 1 from basic hashing to **Binary Header Analysis**.
