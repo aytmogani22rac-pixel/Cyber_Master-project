@@ -2,18 +2,18 @@ import hashlib
 import os
 import py7zr
 import binascii
+import rarfile
 
 # تعريف الألوان ليعمل الكود بدون أخطاء
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
 RESET = "\033[0m"
 
-print(f"{GREEN}Cyber Master v3.5 - The Brute-Force Engine{RESET}")
+print(f"{GREEN}Cyber Master v4.0 - The Multi-Format Engine{RESET}")
 agent_name = input("Enter Agent Name: ")
 print(f"Welcome back, Agent {agent_name}. Standing by for instruction...")
-
-print("\n[1] Extract File Signature (7z, ZIP, MD5)")
-print("[2] Crack 7z Archive (Wordlist Mode)")
+print("\n[1] Extract File Signature (7z, RAR, MD5)")
+print("[2] Crack Archive - Wordlist Mode (7z, RAR)")
 choice = input("\nSelect Stage: ")
 
 # --- Stage 1: Extraction ---
@@ -30,7 +30,12 @@ if choice == "1":
         with open(file_path, "rb") as f:
             header_data = f.read(32)
             target_hash = binascii.hexlify(header_data).decode()
-            print(f"\n[+] Security Header Captured: {target_hash}")                   
+            print(f"\n[+] Security Header Captured (7z): {target_hash}") 
+    elif file_extension == ".rar":
+        with open(file_path, "rb") as f:
+            header_data = f.read(7)
+            target_hash = binascii.hexlify(header_data).decode()
+            print(f"\n[+] Security Header (RAR): {target_hash}")                          
     else:
         with open(file_path, "rb") as f:
             content = f.read()
@@ -53,9 +58,8 @@ if choice == "1":
 
 # --- Stage 2: Cracking --- 
 if choice == "2":
-    target_file = input("\nEnter the path of the 7z file to crack: ").strip().replace('"', '').replace("'", "")
+    target_file = input("\nEnter the path of the archive to crack (7z/ RAR): ").strip().replace('"', '').replace("'", "")
     wordlist_path = "pass.txt" 
-    
     if not os.path.exists(target_file):
         print("[-] Error: Target file not found!")
     elif not os.path.exists(wordlist_path):
@@ -74,15 +78,19 @@ if choice == "2":
                     print(f"[*] Checked: {counter} | Trying: {word}            ", end="\r")
                     
                     try:
-                        with py7zr.SevenZipFile(target_file, mode='r', password=word) as archive:
-                            archive.testzip() 
-                        
+                        file_ext = os.path.splitext(target_file)[1].lower()
+                        if file_ext == ".7z":
+                            with py7zr.SevenZipFile(target_file,mode='r', password=word) as archive: 
+                                archive.testzip()
+                        elif file_ext == ".rar":
+                            with rarfile.RarFile(target_file) as archive: 
+                                archive.testrar(password=word)
                         print(f"\n\n{GREEN}[+] Success! Password found: {word}{RESET}")
                         found = True
                         break
                     except:
                         continue
-                        
+
                 if not found:
                     print(f"\n\n{YELLOW}[-] Password not found in the wordlist.{RESET}")
         except Exception as e:
