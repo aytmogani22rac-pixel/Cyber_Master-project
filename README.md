@@ -6,6 +6,11 @@
 
 ## 🚀 Version History (Changelog)
 
+## ⚠️ v4.5 Beta - Known Issue
+
+- **ZIP Engine**: Currently using 7-Zip subprocess. Some encryption types may require further debugging.
+- **Next Update**: Finalizing ZIP precision logic.
+
 ### 🚀 v4.0: The Multi-Format Engine (Latest)
 
 - **New Feature**: Added full support for **RAR** archive cracking.
@@ -13,7 +18,7 @@
 - **Smart Logic**: Automatic detection of file extensions (.7z or .rar) to select the correct cracking engine.
 - **UX Update**: Unified Stage 2 input to accept both 7z and RAR files seamlessly.
 
-##: T# 🛠 v3.5he Brute-Force Awakening (Current)
+### T# 🛠 v3.5:he Brute-Force Awakening (Current)
 
 - **New Feature**: Integrated 7z Archive Cracking Engine.
 - **Library**: Powered by `py7zr` for high-speed signature matching.

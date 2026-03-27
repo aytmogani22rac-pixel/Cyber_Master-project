@@ -3,17 +3,19 @@ import os
 import py7zr
 import binascii
 import rarfile
+import subprocess
+import time
 
 # تعريف الألوان ليعمل الكود بدون أخطاء
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
 RESET = "\033[0m"
 
-print(f"{GREEN}Cyber Master v4.0 - The Multi-Format Engine{RESET}")
+print(f"{GREEN}Cyber Master v4.5 - The Multi-Format Engine{RESET}")
 agent_name = input("Enter Agent Name: ")
 print(f"Welcome back, Agent {agent_name}. Standing by for instruction...")
-print("\n[1] Extract File Signature (7z, RAR, MD5)")
-print("[2] Crack Archive - Wordlist Mode (7z, RAR)")
+print("\n[1] Extract File Signature (7z, RAR, ZIP, MD5)")
+print("[2] Crack Archive - Wordlist Mode (7z, RAR, ZIP)")
 choice = input("\nSelect Stage: ")
 
 # --- Stage 1: Extraction ---
@@ -35,7 +37,12 @@ if choice == "1":
         with open(file_path, "rb") as f:
             header_data = f.read(7)
             target_hash = binascii.hexlify(header_data).decode()
-            print(f"\n[+] Security Header (RAR): {target_hash}")                          
+            print(f"\n[+] Security Header (RAR): {target_hash}")   
+    if file_extension == ".zip" :
+        with open(file_path, "rb") as f:
+            header_data = f.read(4) 
+            target_hash = binascii.hexlify(header_data).decode()
+            print(f"\n[+] Security Header (ZIP): {target_hash}")                     
     else:
         with open(file_path, "rb") as f:
             content = f.read()
@@ -58,7 +65,7 @@ if choice == "1":
 
 # --- Stage 2: Cracking --- 
 if choice == "2":
-    target_file = input("\nEnter the path of the archive to crack (7z/ RAR): ").strip().replace('"', '').replace("'", "")
+    target_file = input("\nEnter the path of the archive to crack (7z/ RAR/ ZIP): ").strip().replace('"', '').replace("'", "")
     wordlist_path = "pass.txt" 
     if not os.path.exists(target_file):
         print("[-] Error: Target file not found!")
@@ -71,12 +78,12 @@ if choice == "2":
             with open(wordlist_path, "r", encoding="utf-8", errors="ignore") as wordlist:
                 counter = 0
                 found = False
+                start_time = time.time()
                 for line in wordlist:
                     word = line.strip()
                     if not word: continue
                     counter += 1
                     print(f"[*] Checked: {counter} | Trying: {word}            ", end="\r")
-                    
                     try:
                         file_ext = os.path.splitext(target_file)[1].lower()
                         if file_ext == ".7z":
@@ -85,7 +92,16 @@ if choice == "2":
                         elif file_ext == ".rar":
                             with rarfile.RarFile(target_file) as archive: 
                                 archive.testrar(password=word)
+                        elif file_ext == ".zip" :
+                            seven_zip = r"C\Program Files\7-Zip\7z.exe"
+                            cmd = [seven_zip, "t", target_file, f"-p{word}", "-y"]
+                            result = subprocess.run(cmd, capture_output=True, text=True)
+                            if result.returncode != 0:
+                                raise Exception("Wrong")
                         print(f"\n\n{GREEN}[+] Success! Password found: {word}{RESET}")
+                        end_time = time.time()
+                        duration = round(end_time - start_time, 2)
+                        print(f"{YELLOW}[*] Time taken: {duration} seconds{RESET}")
                         found = True
                         break
                     except:
