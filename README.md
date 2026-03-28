@@ -6,6 +6,14 @@
 
 ## 🚀 Version History (Changelog)
 
+### 🚀 v4.5 (Official Release) - [Current Stable]
+
+- **New Feature**: Added **Auto-Resume** system. The tool now saves progress in `session.txt` and can resume from any line.
+- **New Feature**: Integrated **Desktop Notifications**. Get a Windows alert immediately when a password is found.
+- **Optimization**: Significant speed improvements for **RAR** and **7z** engines.
+- **Stability Update**: **ZIP support removed** in this version to ensure 100% accuracy and prevent false positives.
+- **UI Update**: Added real-time "Checked" counter and improved performance timer
+
 ## ⚠️ v4.5 Beta - Known Issue
 
 - **ZIP Engine**: Currently using 7-Zip subprocess. Some encryption types may require further debugging.

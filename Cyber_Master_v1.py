@@ -5,7 +5,12 @@ import binascii
 import rarfile
 import subprocess
 import time
+from plyer import notification
 
+def send_alter(pwd):
+    notification.notify(
+        title=" Cyber Master Tool",
+        message=f"Success! Password found: {pwd}",             timeout=10 )
 # تعريف الألوان ليعمل الكود بدون أخطاء
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -14,8 +19,8 @@ RESET = "\033[0m"
 print(f"{GREEN}Cyber Master v4.5 - The Multi-Format Engine{RESET}")
 agent_name = input("Enter Agent Name: ")
 print(f"Welcome back, Agent {agent_name}. Standing by for instruction...")
-print("\n[1] Extract File Signature (7z, RAR, ZIP, MD5)")
-print("[2] Crack Archive - Wordlist Mode (7z, RAR, ZIP)")
+print("\n[1] Extract File Signature (7z, RAR, MD5)")
+print("[2] Crack Archive - Wordlist Mode (7z, RAR,)")
 choice = input("\nSelect Stage: ")
 
 # --- Stage 1: Extraction ---
@@ -73,17 +78,25 @@ if choice == "2":
         print(f"[-] Error: '{wordlist_path}' not found! Create it in the project folder.")
     else:
         print(f"\n{YELLOW}[!] Starting Brute-force on: {os.path.basename(target_file)}{RESET}")
-        
+        start_from = 0
+        if os.path.exists("session.txt"):
+            with open("session.txt", "r") as f:
+                start_from = int(f.read().strip())
+            print(f"{YELLOW}[!] Resume session found. Starting from line {start_from}{RESET}")
         try:
             with open(wordlist_path, "r", encoding="utf-8", errors="ignore") as wordlist:
                 counter = 0
                 found = False
                 start_time = time.time()
                 for line in wordlist:
+                    counter += 1
+                    if counter < start_from:
+                        continue
                     word = line.strip()
                     if not word: continue
-                    counter += 1
                     print(f"[*] Checked: {counter} | Trying: {word}            ", end="\r")
+                    if counter % 100 == 0:
+                        with open("session.txt", "w") as f: f.write(str(counter))
                     try:
                         file_ext = os.path.splitext(target_file)[1].lower()
                         if file_ext == ".7z":
@@ -93,11 +106,7 @@ if choice == "2":
                             with rarfile.RarFile(target_file) as archive: 
                                 archive.testrar(password=word)
                         elif file_ext == ".zip" :
-                            seven_zip = r"C\Program Files\7-Zip\7z.exe"
-                            cmd = [seven_zip, "t", target_file, f"-p{word}", "-y"]
-                            result = subprocess.run(cmd, capture_output=True, text=True)
-                            if result.returncode != 0:
-                                raise Exception("Wrong")
+                            print(f"{YELLOW}[!] ZIP support is curently in development. Skipping... {RESET}")
                         print(f"\n\n{GREEN}[+] Success! Password found: {word}{RESET}")
                         end_time = time.time()
                         duration = round(end_time - start_time, 2)
@@ -106,7 +115,9 @@ if choice == "2":
                         break
                     except:
                         continue
-
+                if found: send_alter(word)
+                if os.path.exists("session.txt"):
+                    os.remove("session.txt")
                 if not found:
                     print(f"\n\n{YELLOW}[-] Password not found in the wordlist.{RESET}")
         except Exception as e:
