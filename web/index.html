@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cyber Master - Security Lab v8.8</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="menu-icon" onclick="toggleSide()">☰</div>
+
+    <div id="side" class="sidebar">
+      <div
+        onclick="toggleSide()"
+        style="
+          cursor: pointer;
+          color: var(--text-dim);
+          margin-bottom: 25px;
+          font-size: 0.8rem;
+        "
+      >
+        ✕ CLOSE MENU
+      </div>
+
+      <div class="home-link" onclick="goHome()">
+        <span>🏠</span> BACK TO START
+      </div>
+
+      <div class="history-section">
+        <h4
+          style="
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            color: var(--accent);
+            font-size: 0.9rem;
+          "
+        >
+          FILES PROCESSED
+        </h4>
+        <div class="file-history" id="fileLog">
+          <div style="color: #444; font-style: italic">
+            Your history is empty...
+          </div>
+        </div>
+      </div>
+
+      <div class="dev-section" style="margin-top: auto; padding-top: 20px">
+        <h4 style="color: var(--accent); font-size: 0.9rem">SOCIAL LINKS</h4>
+        <div style="font-size: 0.85rem; line-height: 2.5">
+          <a href="#" style="color: #fff; text-decoration: none"
+            >📂 GITHUB / CYBER-MASTER</a
+          ><br />
+          <a href="#" style="color: #fff; text-decoration: none"
+            >📸 INSTAGRAM / RACHID_DEV</a
+          ><br />
+          <a href="#" style="color: #fff; text-decoration: none"
+            >☕ SUPPORT ME</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="back" class="back-btn" onclick="goBack()">BACK ←</div>
+      <div class="header">SECURITY LAB</div>
+
+      <div id="s1">
+        <div class="input-wrapper">
+          <input type="text" id="user" placeholder="مرجو ادخال اسم مستخدم" />
+        </div>
+
+        <div class="terms-box">
+          <input type="checkbox" id="check" />
+          <label for="check">
+            أوافق على سياسة الاستخدام: هذا البرنامج مخصص للأغراض التعليمية
+            والبحث الأمني فقط. أي استخدام غير قانوني هو مسؤولية المستخدم وحده.
+          </label>
+        </div>
+
+        <button class="main-btn" onclick="toS2()">INITIALIZE SESSION</button>
+      </div>
+
+      <div id="s2" style="display: none">
+        <div class="grid">
+          <div
+            class="option-card"
+            onmousemove="tiltCard(event, this)"
+            onmouseleave="resetTilt(this)"
+            onclick="toS3('extract')"
+          >
+            <div style="font-size: 2.5rem">🔍</div>
+            <div style="font-weight: bold; margin-top: 10px">HASH ANALYZE</div>
+          </div>
+          <div
+            class="option-card"
+            onmousemove="tiltCard(event, this)"
+            onmouseleave="resetTilt(this)"
+            onclick="toS3('crack')"
+          >
+            <div style="font-size: 2.5rem">🛡️</div>
+            <div style="font-weight: bold; margin-top: 10px">
+              INTEGRITY TEST
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="s3" style="display: none">
+        <p
+          id="targetLabel"
+          style="font-size: 0.8rem; color: var(--accent); text-align: left"
+        ></p>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="path1"
+            placeholder="Drop or select file..."
+            oninput="revealNext()"
+          />
+          <div class="browse-btn" onclick="openBrowser('path1')">📁</div>
+        </div>
+        <div id="extraField" style="display: none">
+          <p style="font-size: 0.8rem; color: var(--accent); text-align: left">
+            WORDLIST DATABASE:
+          </p>
+          <div class="input-wrapper">
+            <input type="text" id="path2" placeholder="Path to wordlist..." />
+            <div class="browse-btn" onclick="openBrowser('path2')">📁</div>
+          </div>
+        </div>
+        <button class="main-btn" onclick="finalRun()">EXECUTE AUDIT</button>
+      </div>
+    </div>
+    <div id="resultModal" class="modal">
+      <div class="modal-content">
+        <h3>AUDIT RESULT</h3>
+        <p id="modalMessage"></p>
+        <button onclick="closeModal()">CLOSE</button>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="eel.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

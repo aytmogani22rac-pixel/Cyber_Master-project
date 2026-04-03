@@ -6,6 +6,23 @@
 
 ## 🚀 Version History (Changelog)
 
+### 🧪 v5.0 (Beta Release) - [Current Development]
+
+- Major Milestone: Transitioned from a command-line script to a Full GUI Application using the Eel framework (HTML/CSS/JS).
+
+- New Architecture: Completely refactored the core logic into a modular structure, separating Python backend functions from the Web frontend.
+
+- Modern Interface: Designed a sleek, responsive Dark Mode UI for a professional user experience.
+
+- Interactive Features: Added a Modal Result System and dynamic status updates (no more messy console logs).
+
+- Portability: Optimized the project for distribution by removing environment-specific folders and adding a universal requirements.txt.
+
+- Improved Logic: Enhanced the signature extraction process to work seamlessly with the new graphical interface.
+
+⚠️ Development Status
+v5.0 is currently in Beta. We are actively testing the new GUI for stability and finalizing the integration of all legacy features into the new modular design.
+
 ### 🚀 v4.5 (Official Release) - [Current Stable]
 
 - **New Feature**: Added **Auto-Resume** system. The tool now saves progress in `session.txt` and can resume from any line.

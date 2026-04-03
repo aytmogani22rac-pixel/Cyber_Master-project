@@ -70,7 +70,7 @@ if choice == "1":
 
 # --- Stage 2: Cracking --- 
 if choice == "2":
-    target_file = input("\nEnter the path of the archive to crack (7z/ RAR/ ZIP): ").strip().replace('"', '').replace("'", "")
+    target_file = input("\nEnter the path of the archive to crack (7z/ RAR/): ").strip().replace('"', '').replace("'", "")
     wordlist_path = "pass.txt" 
     if not os.path.exists(target_file):
         print("[-] Error: Target file not found!")
@@ -87,6 +87,10 @@ if choice == "2":
             with open(wordlist_path, "r", encoding="utf-8", errors="ignore") as wordlist:
                 counter = 0
                 found = False
+                file_ext = os.path.splitext(target_file)[1].lower()
+                if file_ext == ".zip":
+                    print(f"{YELLOW}[!] ZIP support is currently in development. Please use .rar or .7z{RESET}")
+                    exit()
                 start_time = time.time()
                 for line in wordlist:
                     counter += 1
@@ -105,8 +109,6 @@ if choice == "2":
                         elif file_ext == ".rar":
                             with rarfile.RarFile(target_file) as archive: 
                                 archive.testrar(password=word)
-                        elif file_ext == ".zip" :
-                            print(f"{YELLOW}[!] ZIP support is curently in development. Skipping... {RESET}")
                         print(f"\n\n{GREEN}[+] Success! Password found: {word}{RESET}")
                         end_time = time.time()
                         duration = round(end_time - start_time, 2)
