@@ -6,6 +6,11 @@
 
 ## 🚀 Version History (Changelog)
 
+### 🚀 v5.0 (Stable Release) - [Current Version]
+
+- "We have successfully finalized the stable release, consolidating all
+  development efforts into a single, high-performance standalone application (.EXE). This version ensures complete stability and a seamless user experience, free from any interface freezing thanks to our multi-threading implementation. Cyber Master v5.0 is now a production-ready tool, serving as a robust foundation for future advanced security features and AI-driven enhancements."
+
 ### 🧪 v5.0 (Beta Release) - [Current Development]
 
 - Major Milestone: Transitioned from a command-line script to a Full GUI Application using the Eel framework (HTML/CSS/JS).

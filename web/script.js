@@ -1,3 +1,7 @@
+      eel.expose(on_crack_result);
+function on_crack_result(result) {
+    alert(result); 
+}
       let step = 1;
       let currentMode = "";
 
